@@ -1,19 +1,19 @@
 <?php
     function connect($host='localhost', $username='root', $password = '', $dbname='trips')
     {
-        $link = mysql_connect($host, $username, $password);
-        mysql_select_db($dbname);
-        mysql_query( 'set names "utf8"');
-        $err = mysql_errno();
+        $link = mysqli_connect($host, $username, $password, $dbname);
+        mysqli_query($link, 'set names "utf8"');
+        $err = mysqli_errno($link);
         echo $err;
         if(!$err){
-            echo 'access deny';
+            echo 'access open';
         }
-
+        return $link;
     }
     function check_errors()
     {
-        $err = mysql_errno();
+        $link = connect();
+        $err = mysqli_errno($link);
         if($err){
             echo "<h3><span style='color:red;'>Error $err</span></h3>";
             return false;
@@ -22,7 +22,6 @@
     }
     function register($login, $password, $email)
     {
-        echo $email;
         $name = trim(htmlspecialchars($login));
         $pass = md5(trim(htmlspecialchars($password)));
         $mail = trim(htmlspecialchars($email));
@@ -31,8 +30,8 @@
             return false;
         }
         $ins = "insert into users(login, password, email, role_id) values('$name', '$pass', '$mail', 2)";
-        echo $ins;
-        mysql_query($ins);
+        $link = connect();
+        mysqli_query($link, $ins);
         return check_errors();
     }
 ?>
