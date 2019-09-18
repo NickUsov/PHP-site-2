@@ -4,9 +4,9 @@
         $link = mysqli_connect($host, $username, $password, $dbname);
         mysqli_query($link, 'set names "utf8"');
         $err = mysqli_errno($link);
-        echo $err;
+        //echo $err;
         if(!$err){
-            echo 'access open';
+           // echo 'access open';
         }
         return $link;
     }
@@ -26,7 +26,7 @@
         $pass = md5(trim(htmlspecialchars($password)));
         $mail = trim(htmlspecialchars($email));
         if($name == '' || $pass == '' || $mail == ''){
-            echo "<h3><span style='color:red;'>All fields needs fill</span></h3>";
+            echo "<h3><span style='color:red;'>All fields need fill</span></h3>";
             return false;
         }
         $ins = "insert into users(login, password, email, role_id) values('$name', '$pass', '$mail', 2)";
