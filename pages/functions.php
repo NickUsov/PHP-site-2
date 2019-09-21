@@ -34,4 +34,21 @@
         mysqli_query($link, $ins);
         return check_errors();
     }
+    function login($login, $password) 
+    {
+        $ins = 'select * from users';
+        $link = connect();
+        $select = mysqli_query($link, $ins);
+        foreach ($select as $item) {
+            if($login == $item['login'] && md5($password) == $item['password']&& $item['role_id'] == 1){
+                $_SESSION['admin'] = $login;
+                return true; 
+            }
+            else if($login == $item['login'] && md5($password) == $item['password']&& $item['role_id'] == 2){
+                $_SESSION['user'] = $login;
+                return true;
+            }
+        }
+        return false;
+    }
 ?>

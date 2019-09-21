@@ -42,14 +42,11 @@
     if(isset($_POST['add_hotel'])){
         $hotel = trim(htmlspecialchars($_POST['hotel']));
         $_city_country_id = explode(':',$_POST['city_country_id']);
-        //echo print_r($_city_country_id);
         $_city_id = $_city_country_id[0];
         $_country_id =$_city_country_id[1];
-        //echo $_city_id.'<br>'.$_country_id.'<br';
         $stars = $_POST['stars'];
         $price = $_POST['price'];
         $info = $_POST['info'];
-        //echo $stars.'<br>'.$price.'<br>'.$info;
         if($hotel === '' || $stars === '' || $price === '' || $info === ''){
             echo "<script>window.location='index.php?page=4'</script>";
             return;
@@ -71,12 +68,12 @@
 <div class="row">
     <div class="col-md-6">
         <!-- section A: for form countries -->
-        <div class="panel panel-primary">
-            <form action="index.php?page=4" method="post">
+        <div class="panel panel-primary">  
             <div class="panel-heading">
-                <h3>Form countries</h3>
+                <h3 class="panel-title">Form Countries</h3>
             </div>
             <div class="panel-body">
+            <form action="index.php?page=4" method="post">
                 <?php
                     $link = connect();
                     $sel = 'select * from countries';
@@ -119,12 +116,12 @@
     </div>
     <div class="col-md-6">
         <!-- section B: for form cities -->
-        <div class="panel panel-succes">
-            <form action="index.php?page=4" method="post">
+        <div class="panel panel-info">
             <div class="panel-heading">
-                <h3>Form Cities</h3>
+                <h3 class="panel-title">Form Cities</h3>
             </div>
             <div class="panel-body">
+            <form action="index.php?page=4" method="post">
                 <?php
                     $link = connect();
                     $sel_table = 'select cities.id, cities.city, countries.country from cities, countries where cities.country_id = countries.id';
@@ -182,17 +179,13 @@
     <!-- section C: for form hotels -->
     <div class="panel panel-danger">
         <div class="panel-heading">
-            <h3>Form Hotels</h3>
+            <h3 class="panel-title">Form Hotels</h3>
         </div>
         <div class="panel-body">
         <form action="index.php?page=4" method="post">
-            <div class="panel-heading">
-                <h3>Form Hotels</h3>
-            </div>
-            <div class="panel-body">
                 <?php
                     $link = connect();
-                    $sel_hotel = 'select hotels.id, hotels.city_id, hotels.country_id, hotels.stars, hotels.price, hotels.hotel, cities.city, cities.id, countries.id, countries.country from hotels, cities, countries where cities.country_id = countries.id and hotels.city_id = cities.id and hotels.country_id = countries.id';
+                    $sel_hotel = 'select hotels.id, hotels.city_id, hotels.country_id, hotels.stars, hotels.price, hotels.hotel, cities.city, cities.id, countries.id, countries.country, hotels.info from hotels, cities, countries where cities.country_id = countries.id and hotels.city_id = cities.id and hotels.country_id = countries.id';
                     $sel_country_city = "select cities.id, cities.city, countries.country, countries.id from cities, countries where cities.country_id = countries.id";
                     $hotel_res = mysqli_query($link, $sel_hotel);
                     $city_country_res = mysqli_query($link, $sel_country_city);
@@ -205,6 +198,7 @@
                         <th>stars</th>
                         <th>price</th>
                         <th>city/country</th>
+                        <th>info</th>
                         <th>options</th>
                     </tr>
                 </thead>
@@ -216,6 +210,7 @@
                         <td><?=$row[3]?></td> 
                         <td><?=$row[4]?></td>  
                         <td><?=$row[6].'/'.$row[9]?></td> 
+                        <td><?=$row[10]?></td>
                         <td>
                             <input type="checkbox" name="indexes[]" value="<?=$row[0]?>">
                         </td>
@@ -254,7 +249,7 @@
                         <textarea class="form-control" name="info" cols="22" rows="6"></textarea>
                     </label>
                 </div>
-            </div>
+            
             <div class="panel-footer">
                 <button class="btn btn-primary" name="add_hotel" type="submit">Add</button>
                 <button class="btn btn-danger" name="del_hotel" type="submit">Delete</button>
@@ -268,7 +263,7 @@
     <!-- section D: for form images -->
     <div class="panel panel-warning">
         <div class="panel-heading">
-            <h3>Form Images</h3>
+            <h3 class="panel-title">Form Images</h3>
         </div>
         <div class="panel-body">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum voluptas laudantium eligendi accusantium officia maxime enim delectus inventore. Cumque saepe vero architecto soluta vel? Aperiam, deserunt nulla dolor velit rerum maiores officia dolore nam enim reiciendis reprehenderit. Provident, reprehenderit quibusdam?
